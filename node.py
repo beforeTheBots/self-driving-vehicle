@@ -1,0 +1,1 @@
+# In this file, we will define the class of each node of cars (agents)

@@ -1,0 +1,1 @@
+# In this file, we will initialize the default configuration variables for the entire application.
