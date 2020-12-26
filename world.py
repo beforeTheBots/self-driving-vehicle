@@ -28,5 +28,5 @@ class World:
     def updateScore(self, new_score):  # update the score.
         self.score = new_score
 
-    def getScore(self):
+    def getScore(self):  # returns the score
         return self.score
