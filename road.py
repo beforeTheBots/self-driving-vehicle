@@ -9,8 +9,8 @@ from random import random, seed
 
 
 class Road:
-    def __init__(self, world):  # world -> input
-        self.num_ctrl_points = int((world.win_height + SAFE_SPACE) / SPACING) + 2
+    def __init__(self, world):  # world -> input (instance of world class)
+        self.num_ctrl_points = int((world.win_height + SAFE_SPACE) / SPACING) + 2   # 8 control points
 
         self.last_ctrl_point = 0
         self.ctrl_points = []
@@ -20,14 +20,27 @@ class Road:
 
         for i in range(self.num_ctrl_points):  # adding each control_point to an array as an (x,y,angle)
             self.ctrl_points.append(vect2d())
+            """
+            [{x: -1, y: -1, angle: 0}, {x: -1, y: -1, angle: 0},,,,,]
+            """
 
-        for i in range(NUM_POINTS * self.num_ctrl_points):  # fill the victors of the right, left and center points
+        for i in range(NUM_POINTS * self.num_ctrl_points):
+            """
+            fill the vectors of the right, left and center points 
+            15 * 8 = 120 points for each (left, right, center)
+            [{x: 1000, y: 1000, angle: 0}, {x: 1000, y: 1000, angle: 0},,,,,]
+            """
             self.pointsLeft.append(vect2d(1000, 1000))
             self.pointsRight.append(vect2d(1000, 1000))
             self.centerPoints.append(vect2d(1000, 1000))
 
+        """
+        modified the values of x, y for the 1st and 2nd control points
+        """
         self.ctrl_points[0].co(0, SPACING)  # create the first two segments
         self.ctrl_points[1].co(0, 0)
+
+
         for i in range(NUM_POINTS):
             x = self.ctrl_points[0].x
             y = self.ctrl_points[0].y - SPACING / NUM_POINTS * i
@@ -36,7 +49,7 @@ class Road:
             self.pointsRight[i].co(x + ROAD_WIDTH / 2, y)
         self.next_point = NUM_POINTS
 
-        for i in range(self.num_ctrl_points - 2):  # creat segment for each control point
+        for i in range(self.num_ctrl_points - 2):  # creat segment for each control point, 6 segments.
             self.createSegment(i + 1)
 
         self.last_ctrl_point = self.num_ctrl_points - 1
@@ -57,13 +70,13 @@ class Road:
             self.pointsRight[i].y = center.y + y if not center.y + y >= self.pointsRight[prev_index].y else \
                 self.pointsRight[prev_index].y
 
-        def createSegment(self, index):  # create segments of the road
-            p1 = self.ctrl_points[getPoint(index, self.num_ctrl_points)]
-            p2 = self.ctrl_points[getPoint(index + 1, self.num_ctrl_points)]
+        def createSegment(self, index):  # create segments of the road (for each 2 consecutive control points
+            p1 = self.ctrl_points[getPoint(index, self.num_ctrl_points)]  # (1, 8) => 1 => {x: 0, y: 0, angle: 0}
+            p2 = self.ctrl_points[getPoint(index + 1, self.num_ctrl_points)]  # (2, 8) => 2 => {x: -1, y: -1, angle: 0}
 
             # define p2
-            seed()
-            p2.co(p1.x + (random() - 0.5) * MAX_DEVIATION, p1.y - SPACING)
+            seed()  # current system time
+            p2.co(p1.x + (random() - 0.5) * MAX_DEVIATION, p1.y - SPACING)  # this is where the random road generation all happens
             p2.angle = MAX_ANGLE * (random() - 0.5)
 
             y_tmp = []
