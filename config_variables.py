@@ -7,8 +7,8 @@ py.font.init()  # initializes the font module. The module must be initialized be
 # 1. General Constants:
 # =================== General constants ==================================
 FPS = 30  # frame per second
-WIN_WIDTH = 1800  # window width
-WIN_HEIGHT = 1000  # window height
+WIN_WIDTH = 1500  # window width
+WIN_HEIGHT = 800  # window height
 STARTING_POS = (WIN_WIDTH / 2, WIN_HEIGHT - 100)
 SCORE_VEL_MULTIPLIER = 0.00  # bonus for faster cars
 BAD_GENOME_TRESHOLD = 200  # if a car is too far behind it is removed
@@ -32,7 +32,7 @@ ACTIVATION_TRESHOLD = 0.5  #
 ROAD_DBG = False
 MAX_ANGLE = 1  # maximum accepted road angle
 MAX_DEVIATION = 300  # maximum accepted road deviation
-SPACING = 200  # the higher the easier
+SPACING = 300  # the higher the easier
 NUM_POINTS = 15  # number of points for each segment
 SAFE_SPACE = SPACING + 50  # buffer space above the screen
 ROAD_WIDTH = 200  # width of the road, the higher the easier
@@ -45,7 +45,7 @@ LAYER_SPACING = 100
 CONNECTION_WIDTH = 1
 
 WHITE = (255, 255, 255)
-GRAY = (200, 200, 200)
+GRAY = (193,154,107)
 BLACK = (0, 0, 0)
 RED = (200, 0, 0)
 DARK_RED = (100, 0, 0)
@@ -58,6 +58,7 @@ DARK_GREEN_PALE = (100, 150, 100)
 BLUE = (0, 0, 255)
 BLUE_PALE = (200, 200, 255)
 DARK_BLUE = (100, 100, 150)
+
 
 NODE_FONT = py.font.SysFont("comicsans", 15)
 STAT_FONT = py.font.SysFont("comicsans", 50)
