@@ -119,81 +119,81 @@ class Car:
             new_rect = rotated_img.get_rect(center=screen_position)
             world.win.blit(rotated_img, new_rect.topleft)
 
-    # ======================== HELPER FUNCTIONS ==========================
+# ======================== HELPER FUNCTIONS ==========================
 
-    def getSensorEquations(self, world):
-        """
-        returns the equations of the straight lines (in variable y) of the
-        machine in the following order:
-        [vertical, increasing diagonal, horizontal, decreasing diagonal]
-        """
-        eq = []
-        for i in range(4):
-            omega = radians(self.rot + 45 * i)
-            dx = SENSOR_DISTANCE * sin(omega)
-            dy = - SENSOR_DISTANCE * cos(omega)
+def getSensorEquations(self, world):
+    """
+    returns the equations of the straight lines (in variable y) of the
+    machine in the following order:
+    [vertical, increasing diagonal, horizontal, decreasing diagonal]
+    """
+    eq = []
+    for i in range(4):
+        omega = radians(self.rot + 45 * i)
+        dx = SENSOR_DISTANCE * sin(omega)
+        dy = - SENSOR_DISTANCE * cos(omega)
 
-            if CAR_DBG:       # draw sensor lines
-                py.draw.lines(world.win, GREEN, False, [world.getScreenCoords(self.x + dx, self.y + dy), world.getScreenCoords(self.x - dx, self.y - dy)], 2)
+        if CAR_DBG:       # draw sensor lines
+            py.draw.lines(world.win, GREEN, False, [world.getScreenCoords(self.x + dx, self.y + dy), world.getScreenCoords(self.x - dx, self.y - dy)], 2)
 
-            coef = getSegmentEquation(self, vect2d(x=self.x + dx, y=self.y + dy))
-            eq.append(coef)
-        return eq
+        coef = getSegmentEquation(self, vect2d(x=self.x + dx, y=self.y + dy))
+        eq.append(coef)
+    return eq
 
-    def getSegmentEquation(p, q):
-        """
-        equations in variable y between two points (taking into account the coordinate system
-        with y inverted) in the general form ax + by + c = 0 (linear equation)
-        """
+def getSegmentEquation(p, q):
+    """
+    equations in variable y between two points (taking into account the coordinate system
+    with y inverted) in the general form ax + by + c = 0 (linear equation)
+    """
 
-        a = p.y - q.y
-        b = q.x - p.x
-        c = p.x * q.y - q.x * p.y
+    a = p.y - q.y
+    b = q.x - p.x
+    c = p.x * q.y - q.x * p.y
 
-        return (a, b, c)
+    return (a, b, c)
 
-    def getDistance(world, car, sensors, sensorsEquations, p, q):
-        """
-        for each given segment, calculate the distance and put it in the corresponding sensor
-        """
-        (a2, b2, c2) = getSegmentEquation(p, q)
+def getDistance(world, car, sensors, sensorsEquations, p, q):
+    """
+    for each given segment, calculate the distance and put it in the corresponding sensor
+    """
+    (a2, b2, c2) = getSegmentEquation(p, q)
 
-        for i, (a1, b1, c1) in enumerate(sensorsEquations):         # get intersection between sensor and segment
+    for i, (a1, b1, c1) in enumerate(sensorsEquations):         # get intersection between sensor and segment
 
-            if a1 != a2 or b1 != b2:
-                d = b1 * a2 - a1 * b2
-                if d == 0:
-                    continue
-                y = (a1 * c2 - c1 * a2) / d
-                x = (c1 * b2 - b1 * c2) / d
-                if (y - p.y) * (y - q.y) > 0 or (x - p.x) * (
-                        x - q.x) > 0:           # if the intersection is not between a and b, go to the next iteration
-                    continue
-            else:           # coincident lines
-                (x, y) = (abs(p.x - q.x), abs(p.y - q.y))
+        if a1 != a2 or b1 != b2:
+            d = b1 * a2 - a1 * b2
+            if d == 0:
+                continue
+            y = (a1 * c2 - c1 * a2) / d
+            x = (c1 * b2 - b1 * c2) / d
+            if (y - p.y) * (y - q.y) > 0 or (x - p.x) * (
+                    x - q.x) > 0:           # if the intersection is not between a and b, go to the next iteration
+                continue
+        else:           # coincident lines
+            (x, y) = (abs(p.x - q.x), abs(p.y - q.y))
 
-            # get distance
-            dist = ((car.x - x) ** 2 + (car.y - y) ** 2) ** 0.5
+        # get distance
+        dist = ((car.x - x) ** 2 + (car.y - y) ** 2) ** 0.5
 
-            # insert into the sensor in the right direction
-            omega = car.rot + 45 * i            # angle of the sensor line (and its opposite)
-            alpha = 90 - degrees(atan2(car.y - y, x - car.x))               # angle to vertical (as car.rot)
-            if cos(alpha) * cos(omega) * 100 + sin(alpha) * sin(omega) * 100 > 0:
-                index = i
-            else:
-                index = i + 4
+        # insert into the sensor in the right direction
+        omega = car.rot + 45 * i            # angle of the sensor line (and its opposite)
+        alpha = 90 - degrees(atan2(car.y - y, x - car.x))               # angle to vertical (as car.rot)
+        if cos(alpha) * cos(omega) * 100 + sin(alpha) * sin(omega) * 100 > 0:
+            index = i
+        else:
+            index = i + 4
 
-            if dist < sensors[index]:
-                sensors[index] = dist
+        if dist < sensors[index]:
+            sensors[index] = dist
 
-    def decodeCommand(commands, type):
-        if commands[type] > ACTIVATION_TRESHOLD:
-            if type == ACC and commands[type] > commands[BRAKE]:
-                return True
-            elif type == BRAKE and commands[type] > commands[ACC]:
-                return True
-            elif type == TURN_LEFT and commands[type] > commands[TURN_RIGHT]:
-                return True
-            elif type == TURN_RIGHT and commands[type] > commands[TURN_LEFT]:
-                return True
-        return False
+def decodeCommand(commands, type):
+    if commands[type] > ACTIVATION_TRESHOLD:
+        if type == ACC and commands[type] > commands[BRAKE]:
+            return True
+        elif type == BRAKE and commands[type] > commands[ACC]:
+            return True
+        elif type == TURN_LEFT and commands[type] > commands[TURN_RIGHT]:
+            return True
+        elif type == TURN_RIGHT and commands[type] > commands[TURN_LEFT]:
+            return True
+    return False
