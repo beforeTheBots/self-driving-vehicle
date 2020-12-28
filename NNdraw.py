@@ -30,3 +30,25 @@ class NN:
             self.nodes.append(n)
             middle_nodes.remove(out)
             nodeIdList.append(out)
+
+        h = (len(middle_nodes) - 1) * (NODE_RADIUS * 2 + NODE_SPACING)
+        for i, m in enumerate(middle_nodes):
+            n = Node(m, self.pos[0] + (LAYER_SPACING + 2 * NODE_RADIUS),
+                     self.pos[1] + int(-h / 2 + i * (NODE_RADIUS * 2 + NODE_SPACING)), MIDDLE,
+                     [BLUE_PALE, DARK_BLUE, BLUE_PALE, DARK_BLUE])
+            # n like previous n but here we don't have its label and index
+            self.nodes.append(n)
+            nodeIdList.append(m)
+        # connections
+        self.connections = []
+        for c in genome.connections.values():
+            if c.enabled:
+                input, output = c.key
+                self.connections.append(
+                    Connection(self.nodes[nodeIdList.index(input)], self.nodes[nodeIdList.index(output)], c.weight))
+
+    def draw(self, world):
+        for c in self.connections:
+            c.drawConnection(world)
+        for node in self.nodes:
+            node.draw_node(world)
