@@ -11,7 +11,7 @@ WIN_WIDTH = 1500  # window width
 WIN_HEIGHT = 800  # window height
 STARTING_POS = (WIN_WIDTH / 2, WIN_HEIGHT - 100)
 SCORE_VEL_MULTIPLIER = 0.00  # bonus for faster cars
-BAD_GENOME_TRESHOLD = 200  # if a car is too far behind it is removed
+BAD_GENOME_THRESHOLD = 200  # if a car is too far behind it is removed
 INPUT_NEURONS = 9  # 8 neurons are distances to borders, 9 is the speed
 OUTPUT_NEURONS = 4  # accelerate, brake, turn left, turn right
 
@@ -21,11 +21,11 @@ CAR_DBG = False
 FRICTION = -0.1  # the allowed friction rate
 MAX_VEL = 10  # maximum speed
 MAX_VEL_REDUCTION = 1  # at the start, reduce speed to 1
-ACC_STRENGHT = 0.2  # acceleration strength
-BRAKE_STREGHT = 1  # brake strength
+ACC_STRENGTH = 0.2  # acceleration strength
+BRAKE_STRENGTH = 1  # brake strength
 TURN_VEL = 2  # the speed of turning
 SENSOR_DISTANCE = 200  # the distance of sensor from borders
-ACTIVATION_TRESHOLD = 0.5  #
+ACTIVATION_THRESHOLD = 0.5  #
 
 # 3. Road Specifications:
 # ========================== Road Specs ==================================
@@ -35,13 +35,13 @@ MAX_DEVIATION = 300  # maximum accepted road deviation
 SPACING = 300  # the higher the easier
 NUM_POINTS = 15  # number of points for each segment
 SAFE_SPACE = SPACING + 50  # buffer space above the screen
-ROAD_WIDTH = 200  # width of the road, the higher the easier
+ROAD_WIDTH = 215  # width of the road, the higher the easier
 
 # 4. Display and Colors:
 # =================== Display and Colors =================================
 NODE_RADIUS = 20
 NODE_SPACING = 5
-LAYER_SPACING = 100
+LAYER_SPACING = 40
 CONNECTION_WIDTH = 1
 
 WHITE = (255, 255, 255)
@@ -55,14 +55,11 @@ GREEN = (0, 200, 0)
 DARK_GREEN = (0, 100, 0)
 GREEN_PALE = (200, 250, 200)
 DARK_GREEN_PALE = (100, 150, 100)
-BLUE = (0, 0, 255)
-BLUE_PALE = (200, 200, 255)
-DARK_BLUE = (100, 100, 150)
-YELLOW = (255, 168, 5)
+YELLOW = (255,255,1)
 
 
-NODE_FONT = py.font.SysFont("comicsans", 15)
-STAT_FONT = py.font.SysFont("comicsans", 50)
+NODE_FONT = py.font.Font("./Debrosee-ALPnL.ttf", 15)
+STAT_FONT = py.font.Font("./PixelEmulator-xq08.ttf", 30)
 
 # 5. Constants for internal use:
 # =================== Constants for internal use =========================

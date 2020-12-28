@@ -15,12 +15,12 @@ mainClock = py.time.Clock()
 from pygame.locals import *
 py.font.init()
 
-
 bg = py.Surface((WIN_WIDTH, WIN_HEIGHT))
 bg.fill(GRAY)
 
 py.display.set_caption('Race againt Time!')
 screen = py.display.set_mode((WIN_WIDTH, WIN_HEIGHT), 0, 32)
+
 
 font = py.font.SysFont(None, 20)
 
@@ -159,7 +159,7 @@ def single_play(round):
             (x, y) = car.move(road, t)
 
             if t > 10 and (car.detectCollision(road) or y > world.getBestCarPos()[
-                1] + BAD_GENOME_TRESHOLD or y > y_old or car.vel < 0.1):  # il t serve a evitare di eliminare macchine nei primi tot frame (nei primi frame getCollision() restituisce sempre true)
+                1] + BAD_GENOME_THRESHOLD or y > y_old or car.vel < 0.1):  # il t serve a evitare di eliminare macchine nei primi tot frame (nei primi frame getCollision() restituisce sempre true)
 
                 time.sleep(1)
 
@@ -203,7 +203,7 @@ def main(genomes = [], config = []):
         cars.append(Car(0, 0, 0))
         g.fitness = 0
         ge.append(g)
-        NNs.append(NN(config, g, (90, 210)))
+        NNs.append(NN(config, g, (120, 250)))
 
     road = Road(world)
     clock = py.time.Clock()
@@ -232,7 +232,7 @@ def main(genomes = [], config = []):
             y_old = car.y
             (x, y) = car.move(road,t)
 
-            if t>10 and (car.detectCollision(road) or y > world.getBestCarPos()[1] + BAD_GENOME_TRESHOLD or y>y_old or car.vel < 0.1):
+            if t>10 and (car.detectCollision(road) or y > world.getBestCarPos()[1] + BAD_GENOME_THRESHOLD or y>y_old or car.vel < 0.1):
                 ge[i].fitness -= 1
                 cars.pop(i)
                 nets.pop(i)

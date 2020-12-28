@@ -83,9 +83,9 @@ class Car:
         self.acc = FRICTION
 
         if decodeCommand(self.commands, ACC):
-            self.acc = ACC_STRENGHT
+            self.acc = ACC_STRENGTH
         if decodeCommand(self.commands, BRAKE):
-            self.acc = -BRAKE_STREGHT
+            self.acc = -BRAKE_STRENGTH
         if decodeCommand(self.commands, TURN_LEFT):
             self.rot -= TURN_VEL
         if decodeCommand(self.commands, TURN_RIGHT):
@@ -187,7 +187,7 @@ def getDistance(world, car, sensors, sensorsEquations, p, q):
             sensors[index] = dist
 
 def decodeCommand(commands, type):
-    if commands[type] > ACTIVATION_TRESHOLD:
+    if commands[type] > ACTIVATION_THRESHOLD:
         if type == ACC and commands[type] > commands[BRAKE]:
             return True
         elif type == BRAKE and commands[type] > commands[ACC]:
