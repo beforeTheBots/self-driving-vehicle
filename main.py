@@ -18,7 +18,7 @@ py.font.init()
 bg = py.Surface((WIN_WIDTH, WIN_HEIGHT))
 bg.fill(GRAY)
 
-py.display.set_caption('Race againt Time!')
+py.display.set_caption('Race against Time!')
 screen = py.display.set_mode((WIN_WIDTH, WIN_HEIGHT), 0, 32)
 
 
