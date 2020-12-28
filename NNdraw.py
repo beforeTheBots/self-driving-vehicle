@@ -19,13 +19,13 @@ class NN:
         #nodes
         h = (INPUT_NEURONS-1)*(NODE_RADIUS*2 + NODE_SPACING) # the height of inputs column which have and it is 360
         for i, input in enumerate(config.genome_config.input_keys):
-            n = Node(input, pos[0], pos[1]+int(-h/2 + i*(NODE_RADIUS*2 + NODE_SPACING)), INPUT, [GREEN_PALE, GREEN, DARK_GREEN_PALE, DARK_GREEN], input_names[i], i)
+            n = Node(input, pos[0], pos[1]+int(-h/2 + i*(NODE_RADIUS*2 + NODE_SPACING)), INPUT, [GREEN_PALE, GREEN_PALE, DARK_GREEN_PALE, DARK_GREEN_PALE], input_names[i], i)
             # n have the parameter of input nodes like it's position on x and y, it's type (INPUT type = 0), colors, it's lable (like Sensor T) and the node index
             self.nodes.append(n)
             nodeIdList.append(input)
         h = (OUTPUT_NEURONS-1)*(NODE_RADIUS*2 + NODE_SPACING) # the height of output column which have and it is 135
         for i,out in enumerate(config.genome_config.output_keys):
-            n = Node(out+INPUT_NEURONS, pos[0] + 2*(LAYER_SPACING+2*NODE_RADIUS), pos[1]+int(-h/2 + i*(NODE_RADIUS*2 + NODE_SPACING)), OUTPUT, [RED_PALE, RED, DARK_RED_PALE, DARK_RED], output_names[i], i)
+            n = Node(out+INPUT_NEURONS, pos[0] + 2*(LAYER_SPACING+2*NODE_RADIUS), pos[1]+int(-h/2 + i*(NODE_RADIUS*2 + NODE_SPACING)), OUTPUT, [GREEN_PALE, GREEN_PALE, RED, RED], output_names[i], i)
             # n have the parameter of output nodes like it's position on x and y, it's type (INPUT type = 2), colors, it's lable (like Accelerate) and the node index
             self.nodes.append(n)
             middle_nodes.remove(out)
@@ -35,7 +35,7 @@ class NN:
         for i, m in enumerate(middle_nodes):
             n = Node(m, self.pos[0] + (LAYER_SPACING + 2 * NODE_RADIUS),
                      self.pos[1] + int(-h / 2 + i * (NODE_RADIUS * 2 + NODE_SPACING)), MIDDLE,
-                     [BLUE_PALE, DARK_BLUE, BLUE_PALE, DARK_BLUE])
+                     [YELLOW, YELLOW, YELLOW, YELLOW])
             # n like previous n but here we don't have its label and index
             self.nodes.append(n)
             nodeIdList.append(m)
