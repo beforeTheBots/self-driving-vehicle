@@ -114,18 +114,30 @@ class Road:
 
         else:
             # draw borders
+            counter = 1
             for i in range(len(self.pointsLeft)):
                 next_index = getPoint(i + 1, NUM_POINTS * self.num_ctrl_points)
 
                 p = self.pointsLeft[i]
                 f = self.pointsLeft[next_index]
                 if p.y >= f.y:
-                    py.draw.line(world.win, BLACK, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y), 4)
+                    if counter % 4 == 0:
+                        py.draw.line(world.win, RED, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y),
+                                     4)
+                    else:
+                        py.draw.line(world.win, BLACK, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y),
+                                     4)
 
                 p = self.pointsRight[i]
                 f = self.pointsRight[next_index]
                 if p.y >= f.y:
-                    py.draw.line(world.win, BLACK, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y), 4)
+                    if counter % 4 == 0:
+                        py.draw.line(world.win, RED, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y),
+                                     4)
+                    else:
+                        py.draw.line(world.win, BLACK, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y),
+                                     4)
 
+                counter += 1
 def getPoint(i, cap):
     return (i + cap) % cap

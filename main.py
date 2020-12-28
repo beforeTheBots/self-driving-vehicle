@@ -10,13 +10,67 @@ from road import Road
 from world import World
 from NNdraw import NN
 from config_variables import *
-import time
+import sys
+mainClock = py.time.Clock()
+from pygame.locals import *
 py.font.init()
 
 
 bg = py.Surface((WIN_WIDTH, WIN_HEIGHT))
 bg.fill(GRAY)
 
+py.display.set_caption('Race againt Time!')
+screen = py.display.set_mode((WIN_WIDTH, WIN_HEIGHT), 0, 32)
+
+font = py.font.SysFont(None, 20)
+
+def draw_text(text, font, color, surface, x, y):
+    textobj = font.render(text, 1, color)
+    textrect = textobj.get_rect()
+    textrect.topleft = (x, y)
+    surface.blit(textobj, textrect)
+
+click = False
+
+def main_menu():
+    while True:
+
+        screen.fill((255,255,255))
+        draw_text('Main Menu', font, (0,0,0), screen, 20, 20)
+
+        mx, my = py.mouse.get_pos()
+
+        draw_text('PLAY GAME!', font, (0, 0, 0), screen, 600, 280)
+        button_1 = py.Rect(600, 300, 200, 15)
+        draw_text('Bot Player!', font, (0, 0, 0), screen, 600, 480)
+        button_2 = py.Rect(600, 500, 200, 15)
+        if button_1.collidepoint((mx, my)):
+            if click:
+                round = 0
+                single_play(round)
+        if button_2.collidepoint((mx, my)):
+            if click:
+                local_dir = os.path.dirname(__file__)
+                config_path = os.path.join(local_dir, "config_file.txt")
+                run(config_path)
+        py.draw.rect(screen, (0, 0, 255), button_1)
+        py.draw.rect(screen, (0, 0, 255), button_2)
+
+        click = False
+        for event in py.event.get():
+            if event.type == QUIT:
+                py.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    py.quit()
+                    sys.exit()
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        py.display.update()
+        mainClock.tick(60)
 
 def draw_win(cars, road, world, GEN):
     road.draw(world)
@@ -39,7 +93,7 @@ def draw_single(cars, road, world, round):
     for car in cars:
         car.draw(world)
 
-    text = STAT_FONT.render("Best Car Score: " + str(int(world.getScore())), 1, BLACK)
+    text = STAT_FONT.render("Score: " + str(int(world.getScore())), 1, BLACK)
     world.win.blit(text, (world.win_width - text.get_width() - 10, 10))
     text = STAT_FONT.render("Round: " + str(round), 1, BLACK)
     world.win.blit(text, (world.win_width - text.get_width() - 10, 50))
@@ -219,8 +273,9 @@ def run(config_path):
     winner = p.run(main, 10000)
 
 if __name__ == "__main__":
-    local_dir = os.path.dirname(__file__)
-    config_path = os.path.join(local_dir, "config_file.txt")
-    run(config_path)
+    # local_dir = os.path.dirname(__file__)
+    # config_path = os.path.join(local_dir, "config_file.txt")
+    # run(config_path)
     # round = 0
     # single_play(round)
+    main_menu()

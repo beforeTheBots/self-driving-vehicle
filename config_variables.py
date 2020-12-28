@@ -58,6 +58,7 @@ DARK_GREEN_PALE = (100, 150, 100)
 BLUE = (0, 0, 255)
 BLUE_PALE = (200, 200, 255)
 DARK_BLUE = (100, 100, 150)
+YELLOW = (255, 168, 5)
 
 
 NODE_FONT = py.font.SysFont("comicsans", 15)
