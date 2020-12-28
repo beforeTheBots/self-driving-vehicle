@@ -11,16 +11,17 @@ from world import World
 from NNdraw import NN
 from config_variables import *
 import sys
-mainClock = py.time.Clock()
 from pygame.locals import *
+py.init()
 py.font.init()
-
+mainClock = py.time.Clock()
 bg = py.Surface((WIN_WIDTH, WIN_HEIGHT))
 bg.fill(GRAY)
 
 py.display.set_caption('Race against Time!')
 screen = py.display.set_mode((WIN_WIDTH, WIN_HEIGHT), 0, 32)
-
+crash = py.mixer.Sound('tracks/Glass and Metal Collision.mp3')
+music = py.mixer.music.load('tracks/Ratatouille\'s Kitchen - Carmen María and Edu Espinal.mp3')
 
 font = py.font.SysFont(None, 20)
 
@@ -105,6 +106,7 @@ def draw_single(cars, road, world, round):
 
 
 def single_play(round):
+    py.mixer.music.play(-1)
     round+=1
     start = time.perf_counter()
 
@@ -160,7 +162,8 @@ def single_play(round):
 
             if t > 10 and (car.detectCollision(road) or y > world.getBestCarPos()[
                 1] + BAD_GENOME_THRESHOLD or y > y_old or car.vel < 0.1):  # il t serve a evitare di eliminare macchine nei primi tot frame (nei primi frame getCollision() restituisce sempre true)
-
+                py.mixer.music.stop()
+                py.mixer.Sound.play((crash))
                 time.sleep(1)
 
                 single_play(round)
