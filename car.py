@@ -32,8 +32,12 @@ class Car:
         Assign a random image for each car(agent) as well as account for deceleration
         (adding break lights image)
         """
-        img_names = ["yellow_car.png", "red_car.png", "blu_car.png", "green_car.png"]
+
+
+        img_names = ["car1.png", "car2.png", "car3.png", "car4.png"]
+
         name = img_names[floor(random() * len(img_names)) % len(img_names)]
+
 
         self.img = py.transform.rotate(py.transform.scale(py.image.load(os.path.join("imgs", name)).convert_alpha(), (120, 69)), -90)
         self.brake_img = py.transform.rotate(py.transform.scale(py.image.load(os.path.join("imgs", "brakes.png")).convert_alpha(), (120, 69)), -90)

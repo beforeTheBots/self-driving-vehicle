@@ -12,7 +12,9 @@ from NNdraw import NN
 from config_variables import *
 import sys
 from pygame.locals import *
+
 py.init()
+py.mixer.pre_init(44100, 16, 2, 4096)
 py.font.init()
 mainClock = py.time.Clock()
 bg = py.Surface((WIN_WIDTH, WIN_HEIGHT))
@@ -20,10 +22,11 @@ bg.fill(GRAY)
 
 py.display.set_caption('Race against Time!')
 screen = py.display.set_mode((WIN_WIDTH, WIN_HEIGHT), 0, 32)
-crash = py.mixer.Sound('tracks/Glass and Metal Collision.mp3')
-music = py.mixer.music.load('tracks/Ratatouille\'s Kitchen - Carmen María and Edu Espinal.mp3')
+# crash = py.mixer.Sound('tracks/Glass and Metal Collision.mp3')
 
-font = py.font.SysFont(None, 20)
+font = py.font.SysFont(None, 50)
+logo = py.font.SysFont(None, 80)
+
 
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
@@ -31,21 +34,32 @@ def draw_text(text, font, color, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
-click = False
 
+click = False
 def main_menu():
+
+    py.mixer.music.stop()
+    music = py.mixer.music.load('tracks/AlanWalker.mp3')
+    # py.mixer.music.play(-1)
+
+
     while True:
 
         screen.fill((255,255,255))
-        draw_text('Main Menu', font, (0,0,0), screen, 20, 20)
+        draw_text('BEFORE THE BOTS!', logo, (0, 0, 0), screen, WIN_WIDTH-WIN_WIDTH*0.68, WIN_HEIGHT-WIN_HEIGHT*0.70)
+
 
         mx, my = py.mouse.get_pos()
 
-        draw_text('PLAY GAME!', font, (0, 0, 0), screen, 600, 280)
-        button_1 = py.Rect(600, 300, 200, 15)
-        draw_text('Bot Player!', font, (0, 0, 0), screen, 600, 480)
-        button_2 = py.Rect(600, 500, 200, 15)
+        # BUTTON ONE :
+        draw_text('PLAY GAME!', font, (0, 0, 0), screen, WIN_WIDTH-WIN_WIDTH*0.77, WIN_HEIGHT-WIN_HEIGHT*0.25)
+        button_1 = py.Rect(WIN_WIDTH-WIN_WIDTH*0.8, WIN_HEIGHT-WIN_HEIGHT*0.2, 300, 50)
+
+        # BUTTON TOW :
+        draw_text('BOT PLAYER!', font, (0, 0, 0), screen, WIN_WIDTH-WIN_WIDTH*0.38, WIN_HEIGHT-WIN_HEIGHT*0.25)
+        button_2 = py.Rect(WIN_WIDTH-WIN_WIDTH*0.4, WIN_HEIGHT-WIN_HEIGHT*0.2, 300, 50)
         if button_1.collidepoint((mx, my)):
+
             if click:
                 round = 0
                 single_play(round)
@@ -88,6 +102,10 @@ def draw_win(cars, road, world, GEN):
     py.display.update()
     world.win.blit(bg, (0,0))
 
+
+
+
+
 def draw_single(cars, road, world, round):
 
     road.draw(world)
@@ -106,7 +124,12 @@ def draw_single(cars, road, world, round):
 
 
 def single_play(round):
-    py.mixer.music.play(-1)
+    py.mixer.music.stop()
+    # music = py.mixer.music.load('tracks/Ratatouille\'s Kitchen - Carmen María and Edu Espinal.mp3')
+
+
+    # py.mixer.music.play(-1)
+
     round+=1
     start = time.perf_counter()
 
@@ -118,6 +141,7 @@ def single_play(round):
     '''win is in world file which have the method for display our screen after that we use blit method which allowed 
     to draw two draws on each other the first parameter is the source of the displayed screen and the tuple is the 
     (dest) parameter which specify the coordinate for the next screen '''
+
 
 
 
@@ -187,6 +211,7 @@ def single_play(round):
 
 
 def main(genomes = [], config = []):
+
     global GEN
     GEN += 1
 
@@ -253,10 +278,10 @@ def main(genomes = [], config = []):
             if y < yb:
                 (xb, yb) = (x, y)
 
-
         if len(cars) == 0:
             run = False
             break
+
 
         world.updateBestCarPos((xb, yb))
         road.update(world)
@@ -265,17 +290,24 @@ def main(genomes = [], config = []):
 
 #NEAT function
 def run(config_path):
+
+    py.mixer.music.stop()
+    # music = py.mixer.music.load('tracks/LinkinPark .mp3')
+    # py.mixer.music.play(-1)
+
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_path)
 
     p = neat.Population(config)
-
     p.add_reporter(neat.StdOutReporter(True))
     stats =neat.StatisticsReporter()
     p.add_reporter(stats)
 
     winner = p.run(main, 10000)
 
+
+
 if __name__ == "__main__":
+
     # local_dir = os.path.dirname(__file__)
     # config_path = os.path.join(local_dir, "config_file.txt")
     # run(config_path)
