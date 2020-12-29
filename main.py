@@ -222,6 +222,7 @@ def single_play(round):
                 world.win.blit(text, ((world.win_width - text.get_width()) / 2, 90))
 
                 if event.type == py.QUIT:
+
                     run = False
                     py.quit()
                     quit()
@@ -318,6 +319,7 @@ def main(genomes = [], config = []):
 
     run = True
     while run:
+
         t += 1
         clock.tick(FPS)
         world.updateScore(0)
@@ -373,7 +375,6 @@ def run(config_path):
 
 
     # SOUND 4: BOT
-
     py.mixer.music.stop()
     # music = py.mixer.music.load('tracks/LinkinPark .mp3')
     music = py.mixer.music.load('tracks/nova.mp3')
@@ -392,6 +393,5 @@ def run(config_path):
 
 
 if __name__ == "__main__":
-
 
     main_menu()
