@@ -213,10 +213,6 @@ def single_play(round):
         while hold == True:
             time.sleep(1)
 
-            # text = py.font.Font("./PixelEmulator-xq08.ttf", 100).render("PAUSE !!!", 5, WHITE)
-            # world.win.blit(text, ((world.win_width - text.get_width()) / 2, 90))
-
-
             for event in py.event.get():
                 text = py.font.Font("./PixelEmulator-xq08.ttf", 100).render("PAUSE !!!", 5, WHITE)
                 world.win.blit(text, ((world.win_width - text.get_width()) / 2, 90))
