@@ -47,11 +47,7 @@ def main_menu():
     screen.blit(background, (0, 0))
 
     while True:
-
-
-
-
-
+        # DRAW TEXT
         draw_text('BEFORE THE BOTS!', logo, (255, 255, 255), screen, WIN_WIDTH-WIN_WIDTH*0.75, WIN_HEIGHT-WIN_HEIGHT*0.90)
 
 
