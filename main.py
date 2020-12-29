@@ -22,13 +22,11 @@ bg.fill(GRAY)
 
 py.display.set_caption('Race against Time!')
 screen = py.display.set_mode((WIN_WIDTH, WIN_HEIGHT), 0, 32)
-
-# SOUND 1 --> CRASH
 crash = py.mixer.Sound('tracks/Glass and Metal Collision.mp3')
 
-# FONTS
-font = py.font.Font('PixelEmulator-xq08.ttf', 30)  # BUTTONS FONT
-logo = py.font.Font('crackman.ttf', 80)  # LOGO FONT
+
+font = py.font.Font('PixelEmulator-xq08.ttf', 30)
+logo = py.font.Font('crackman.ttf', 80)
 
 
 def draw_text(text, font, color, surface, x, y):
@@ -41,19 +39,18 @@ def draw_text(text, font, color, surface, x, y):
 def main_menu():
     click = False
 
-    # SOUND 2 --> HOMEPAGE
     py.mixer.music.stop()
     music = py.mixer.music.load('tracks/AlanWalker.mp3')
     py.mixer.music.play(-1)
-
-    # BACKGROUND IMAGE
     background = py.image.load(os.path.join("imgs", "self_car3.jpg"))
     background = py.transform.scale(background, (WIN_WIDTH, WIN_HEIGHT))
     screen.blit(background, (0, 0))
 
     while True:
-
+        # DRAW TEXT
         draw_text('BEFORE THE BOTS!', logo, (255, 255, 255), screen, WIN_WIDTH-WIN_WIDTH*0.75, WIN_HEIGHT-WIN_HEIGHT*0.90)
+
+
         mx, my = py.mouse.get_pos()
 
         # BUTTON ONE :
@@ -62,13 +59,11 @@ def main_menu():
         # BUTTON TOW :
 
         button_2 = py.Rect(WIN_WIDTH-WIN_WIDTH*0.4, WIN_HEIGHT-WIN_HEIGHT*0.2, 300, 50)
-
         if button_1.collidepoint((mx, my)):
 
             if click:
                 round = 0
                 single_play(round)
-
         if button_2.collidepoint((mx, my)):
             if click:
                 local_dir = os.path.dirname(__file__)
@@ -79,7 +74,6 @@ def main_menu():
 
         py.draw.rect(screen, (84, 169, 209), button_2)
         draw_text('BOT PLAYER!', font, (255, 255, 255), screen, WIN_WIDTH - WIN_WIDTH * 0.38, WIN_HEIGHT - WIN_HEIGHT * 0.2)
-
         click = False
         for event in py.event.get():
             if event.type == QUIT:
@@ -97,7 +91,6 @@ def main_menu():
         mainClock.tick(60)
 
 def draw_win(cars, road, world, GEN):
-
     road.draw(world)
     for car in cars:
         car.draw(world)
@@ -118,6 +111,9 @@ def draw_win(cars, road, world, GEN):
     mainClock.tick(60)
 
 
+
+
+
 def draw_single(cars, road, world, round):
 
     road.draw(world)
@@ -129,17 +125,21 @@ def draw_single(cars, road, world, round):
     text = STAT_FONT.render("Round: " + str(round), 1, BLACK)
     world.win.blit(text, (world.win_width - text.get_width() - 10, 50))
 
+
+
     py.display.update()
     world.win.blit(bg, (0,0))
 
 
 def single_play(round):
-
-    # SOUND 3 --> PLAYER
     py.mixer.music.stop()
-    music = py.mixer.music.load('tracks/Ratatouille\'s Kitchen - Carmen María and Edu Espinal.mp3')
-    py.mixer.music.play(-1)
-
+    # music = py.mixer.music.load('tracks/Ratatouille\'s Kitchen - Carmen María and Edu Espinal.mp3')
+    #
+    #
+    # py.mixer.music.play(-1)
+    before_puese = 0
+    after_puese = 0
+    timer = 0
     round+=1
     start = time.perf_counter()
 
@@ -148,22 +148,25 @@ def single_play(round):
 
     world = World(STARTING_POS, WIN_WIDTH, WIN_HEIGHT)
     world.win.blit(bg, (0, 0))
-
     '''win is in world file which have the method for display our screen after that we use blit method which allowed 
     to draw two draws on each other the first parameter is the source of the displayed screen and the tuple is the 
     (dest) parameter which specify the coordinate for the next screen '''
 
 
+
+
+
+
     cars.append(Car(0, 0, 0))  # creating a car object
+
 
     road = Road(world)
     clock = py.time.Clock()
-
+    hold = False
     run = True
     while run:
-        t += 1
-        clock.tick(FPS)
-        world.updateScore(0)
+
+
 
         for event in py.event.get():
             if event.type == py.QUIT:
@@ -174,14 +177,51 @@ def single_play(round):
                 if event.key == K_BACKSPACE:
                     py.mixer.music.stop()
                     main_menu()
+                if event.key== K_SPACE:
+                    if hold == False:
+                        before_puese = time.time()
+
+                        hold = True
+                    elif hold == True:
+                        hold = False
+
+
+
             mainClock.tick(60)
+
+        while hold == True:
+            time.sleep(1)
+
+            for event in py.event.get():
+                if event.type == py.QUIT:
+                    run = False
+                    py.quit()
+                    quit()
+                if event.type == KEYDOWN:
+                    if event.key == K_BACKSPACE:
+                        py.mixer.music.stop()
+                        main_menu()
+                    if event.key == K_SPACE:
+                        if hold == False:
+                            hold = True
+                        elif hold == True:
+                            hold = False
+                            after_puese = time.time()
+                            print(timer)
+                            timer += int(after_puese - before_puese)
+                            print(after_puese - before_puese)
+                            print(timer)
+
+
+        t += 1
+        clock.tick(FPS)
+        world.updateScore(0)
 
         (xb, yb) = (0, 0)
         i = 0
-
         while (i < len(cars)):
-
             car = cars[i]
+
             input = car.getInputs(world, road)
             input.append(car.vel / MAX_VEL)
             left, right, breakk = 0,0,0
@@ -197,21 +237,30 @@ def single_play(round):
             (x, y) = car.move(road, t)
 
             if t > 10 and (car.detectCollision(road) or y > world.getBestCarPos()[
-                1] + BAD_GENOME_THRESHOLD or y > y_old or car.vel < 0.1):  # il t serve a evitare di eliminare macchine nei primi tot frame (nei primi frame getCollision() restituisce sempre true)
+                1] + BAD_GENOME_THRESHOLD or y > y_old or car.vel < 0.1):
                 py.mixer.music.stop()
                 py.mixer.Sound.play((crash))
                 time.sleep(1)
 
                 single_play(round)
 
+
             else:
-                end = time.perf_counter() - start
+
+                end = time.perf_counter() - start - timer
+
+
+
                 if (start > world.getScore()):
+
                     world.updateScore(end)
+
                 i += 1
 
             if y < yb:
                 (xb, yb) = (x, y)
+
+
 
         world.updateBestCarPos((xb, yb))
         road.update(world)
@@ -291,6 +340,7 @@ def main(genomes = [], config = []):
             run = False
             break
 
+
         world.updateBestCarPos((xb, yb))
         road.update(world)
         draw_win(cars, road, world, GEN)
@@ -299,7 +349,6 @@ def main(genomes = [], config = []):
 #NEAT function
 def run(config_path):
 
-    # SOUND 4 --> BOT
     py.mixer.music.stop()
     music = py.mixer.music.load('tracks/LinkinPark .mp3')
     py.mixer.music.play(-1)
@@ -310,14 +359,11 @@ def run(config_path):
     p.add_reporter(neat.StdOutReporter(True))
     stats =neat.StatisticsReporter()
     p.add_reporter(stats)
+
     winner = p.run(main, 10000)
+
 
 
 if __name__ == "__main__":
 
-    # local_dir = os.path.dirname(__file__)
-    # config_path = os.path.join(local_dir, "config_file.txt")
-    # run(config_path)
-    # round = 0
-    # single_play(round)
     main_menu()
