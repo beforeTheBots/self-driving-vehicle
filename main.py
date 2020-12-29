@@ -35,12 +35,12 @@ def draw_text(text, font, color, surface, x, y):
     surface.blit(textobj, textrect)
 
 
-click = False
 def main_menu():
+    click = False
 
     py.mixer.music.stop()
     music = py.mixer.music.load('tracks/AlanWalker.mp3')
-    # py.mixer.music.play(-1)
+    py.mixer.music.play(-1)
 
 
     while True:
@@ -101,6 +101,11 @@ def draw_win(cars, road, world, GEN):
 
     py.display.update()
     world.win.blit(bg, (0,0))
+    for event in py.event.get():
+        if event.type == KEYDOWN:
+            if event.key == K_BACKSPACE:
+                main_menu()
+    mainClock.tick(60)
 
 
 
@@ -125,10 +130,10 @@ def draw_single(cars, road, world, round):
 
 def single_play(round):
     py.mixer.music.stop()
-    # music = py.mixer.music.load('tracks/Ratatouille\'s Kitchen - Carmen María and Edu Espinal.mp3')
+    music = py.mixer.music.load('tracks/Ratatouille\'s Kitchen - Carmen María and Edu Espinal.mp3')
 
 
-    # py.mixer.music.play(-1)
+    py.mixer.music.play(-1)
 
     round+=1
     start = time.perf_counter()
@@ -164,6 +169,11 @@ def single_play(round):
                 run = False
                 py.quit()
                 quit()
+            if event.type == KEYDOWN:
+                if event.key == K_BACKSPACE:
+                    py.mixer.music.stop()
+                    main_menu()
+            mainClock.tick(60)
 
         (xb, yb) = (0, 0)
         i = 0
@@ -292,8 +302,8 @@ def main(genomes = [], config = []):
 def run(config_path):
 
     py.mixer.music.stop()
-    # music = py.mixer.music.load('tracks/LinkinPark .mp3')
-    # py.mixer.music.play(-1)
+    music = py.mixer.music.load('tracks/LinkinPark .mp3')
+    py.mixer.music.play(-1)
 
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_path)
 
