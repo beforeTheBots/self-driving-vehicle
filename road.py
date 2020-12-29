@@ -1,10 +1,11 @@
 # In this file, we will define the Road class, with its constructor and methods.
-from config_variables import *
-import pygame as py
+
 import numpy as np
-from scipy import interpolate
+import pygame as py
 from math import *
 from vect2d import *
+from scipy import interpolate
+from config_variables import *
 from random import random, seed
 
 
@@ -70,7 +71,7 @@ class Road:
         self.pointsRight[i].y = center.y + y if not center.y + y >= self.pointsRight[prev_index].y else \
             self.pointsRight[prev_index].y
 
-    def createSegment(self, index):  # create segments of the road (for each 2 consecutive control points
+    def createSegment(self, index):  # create segments of the road (for each 2 consecutive control points)
         p1 = self.ctrl_points[getPoint(index, self.num_ctrl_points)]  # (1, 8) => 1 => {x: 0, y: 0, angle: 0}
         p2 = self.ctrl_points[getPoint(index + 1, self.num_ctrl_points)]  # (2, 8) => 2 => {x: -1, y: -1, angle: 0}
 
@@ -125,7 +126,7 @@ class Road:
                         py.draw.line(world.win, YELLOW, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y),
                                      15)
                     else:
-                        py.draw.line(world.win, BLACK, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y),
+                        py.draw.line(world.win, YELLOW, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y),
                                      15)
 
                 p = self.pointsRight[i]
@@ -135,7 +136,7 @@ class Road:
                         py.draw.line(world.win, YELLOW, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y),
                                      15)
                     else:
-                        py.draw.line(world.win, BLACK, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y),
+                        py.draw.line(world.win, YELLOW, world.getScreenCoords(p.x, p.y), world.getScreenCoords(f.x, f.y),
                                      15)
 
                 counter += 1
