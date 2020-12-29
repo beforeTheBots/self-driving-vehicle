@@ -222,8 +222,12 @@ def single_play(round):
             mainClock.tick(60)
 
         while hold == True:
-            time.sleep(1)
 
+
+            draw_single(cars, road, world, round)
+            text = py.font.Font("./PixelEmulator-xq08.ttf", 100).render("PAUSE !!!", 5, WHITE)
+            world.win.blit(text, ((world.win_width - text.get_width() + 2) , 200))
+            time.sleep(1)
             for event in py.event.get():
                 if event.type == py.QUIT:
                     run = False
@@ -239,10 +243,10 @@ def single_play(round):
                         elif hold == True:
                             hold = False
                             after_puese = time.time()
-                            print(timer)
+
                             timer += int(after_puese - before_puese)
-                            print(after_puese - before_puese)
-                            print(timer)
+
+
 
 
         t += 1
