@@ -1,27 +1,36 @@
 # In this file, we will run the training model using defined classes
 
-import pygame as py
+import os
+import sys
 import neat
 import time
-import os
 import random
+import pygame as py
 from car import Car
+from NNdraw import NN
 from road import Road
 from world import World
-from NNdraw import NN
-from config_variables import *
-import sys
 from pygame.locals import *
+from config_variables import *
+
+
 
 py.init()
-py.mixer.pre_init(44100, 16, 2, 4096)
 py.font.init()
 mainClock = py.time.Clock()
+py.mixer.pre_init(44100, 16, 2, 4096)
+
+
 bg = py.Surface((WIN_WIDTH, WIN_HEIGHT))
-bg.fill(GRAY)
+bg.fill((61, 61, 61))
 
 py.display.set_caption('Race against Time!')
 screen = py.display.set_mode((WIN_WIDTH, WIN_HEIGHT), 0, 32)
+
+
+
+# SOUND 1: CRASH
+
 crash = py.mixer.Sound('tracks/Glass and Metal Collision.mp3')
 
 
@@ -38,6 +47,9 @@ def draw_text(text, font, color, surface, x, y):
 
 def main_menu():
     click = False
+
+
+    # SOUND 2: HOMEPAGE
 
     py.mixer.music.stop()
     music = py.mixer.music.load('tracks/AlanWalker.mp3')
@@ -56,7 +68,7 @@ def main_menu():
         # BUTTON ONE :
         button_1 = py.Rect(WIN_WIDTH-WIN_WIDTH*0.8, WIN_HEIGHT-WIN_HEIGHT*0.2, 300, 50)
 
-        # BUTTON TOW :
+        # BUTTON TWO :
 
         button_2 = py.Rect(WIN_WIDTH-WIN_WIDTH*0.4, WIN_HEIGHT-WIN_HEIGHT*0.2, 300, 50)
         if button_1.collidepoint((mx, my)):
@@ -70,10 +82,13 @@ def main_menu():
                 config_path = os.path.join(local_dir, "config_file.txt")
                 run(config_path)
         py.draw.rect(screen, (84, 169, 209), button_1)
-        draw_text('PLAY GAME!', font, (255, 255, 255), screen, WIN_WIDTH-WIN_WIDTH*0.77, WIN_HEIGHT-WIN_HEIGHT*0.2)
+        draw_text('PLAY GAME', font, (255, 255, 255), screen, WIN_WIDTH-WIN_WIDTH*0.765, WIN_HEIGHT-WIN_HEIGHT*0.2)
 
         py.draw.rect(screen, (84, 169, 209), button_2)
-        draw_text('BOT PLAYER!', font, (255, 255, 255), screen, WIN_WIDTH - WIN_WIDTH * 0.38, WIN_HEIGHT - WIN_HEIGHT * 0.2)
+
+        draw_text('GHOST RIDER', font, (255, 255, 255), screen, WIN_WIDTH - WIN_WIDTH * 0.385, WIN_HEIGHT - WIN_HEIGHT * 0.2)
+
+
         click = False
         for event in py.event.get():
             if event.type == QUIT:
@@ -95,9 +110,9 @@ def draw_win(cars, road, world, GEN):
     for car in cars:
         car.draw(world)
 
-    text = STAT_FONT.render("Best Car Score: "+str(int(world.getScore())), 1, BLACK)
+    text = STAT_FONT.render("Best Car Score: "+str(int(world.getScore())), 1, (214, 214, 214))
     world.win.blit(text, (world.win_width-text.get_width() - 10, 10))
-    text = STAT_FONT.render("Gen: "+str(GEN), 1, BLACK)
+    text = STAT_FONT.render("Gen: "+str(GEN), 1, (214, 214, 214))
     world.win.blit(text, (world.win_width-text.get_width() - 10, 50))
 
     world.bestNN.draw(world)
@@ -120,11 +135,18 @@ def draw_single(cars, road, world, round):
     for car in cars:
         car.draw(world)
 
-    text = STAT_FONT.render("Score: " + str(int(world.getScore())), 1, BLACK)
+    text = STAT_FONT.render("Score: " + str(int(world.getScore())), 1, (214, 214, 214))
     world.win.blit(text, (world.win_width - text.get_width() - 10, 10))
-    text = STAT_FONT.render("Round: " + str(round), 1, BLACK)
+    text = STAT_FONT.render("Round: " + str(round), 1, (214, 214, 214))
     world.win.blit(text, (world.win_width - text.get_width() - 10, 50))
 
+
+    # Level up notification after every 10 points
+    if int(world.getScore()) % 10 == 0 and int(world.getScore()) != 0 and int(world.getScore()) != 1:
+        text = py.font.Font("./PixelEmulator-xq08.ttf", 50).render("LEVEL UP!", 5, BLACK)
+        world.win.blit(text, ((world.win_width - text.get_width()) / 2, 90))
+        text = py.font.Font("./PixelEmulator-xq08.ttf", 50).render("LEVEL UP!", 5, WHITE)
+        world.win.blit(text, ((world.win_width - text.get_width() + 2) / 2, 88))
 
 
     py.display.update()
@@ -132,6 +154,7 @@ def draw_single(cars, road, world, round):
 
 
 def single_play(round):
+
     py.mixer.music.stop()
     # music = py.mixer.music.load('tracks/Ratatouille\'s Kitchen - Carmen María and Edu Espinal.mp3')
     #
@@ -140,6 +163,15 @@ def single_play(round):
     before_puese = 0
     after_puese = 0
     timer = 0
+
+
+    # SOUND 3: PLAYER
+    py.mixer.music.stop()
+    # music = py.mixer.music.load('tracks/Ratatouille\'s Kitchen - Carmen María and Edu Espinal.mp3')
+    music = py.mixer.music.load('tracks/nova.mp3')
+    py.mixer.music.play(-1)
+
+
     round+=1
     start = time.perf_counter()
 
@@ -349,9 +381,14 @@ def main(genomes = [], config = []):
 #NEAT function
 def run(config_path):
 
+
+    # SOUND 4: BOT
+
     py.mixer.music.stop()
-    music = py.mixer.music.load('tracks/LinkinPark .mp3')
+    # music = py.mixer.music.load('tracks/LinkinPark .mp3')
+    music = py.mixer.music.load('tracks/nova.mp3')
     py.mixer.music.play(-1)
+
 
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_path)
 
@@ -365,5 +402,6 @@ def run(config_path):
 
 
 if __name__ == "__main__":
+
 
     main_menu()

@@ -1,10 +1,13 @@
 # In this file, we will draw the Neural Network that will be displayed on the screen of the app.
+
 import pygame as py
+from node import *
+from vect2d import vect2d
 from config_variables import *
 from car import decodeCommand
-from vect2d import vect2d
-from node import *
+
 py.font.init()
+
 class NN:
     def __init__(self, config, genome, pos):
         self.input_nodes = []
