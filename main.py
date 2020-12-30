@@ -147,9 +147,9 @@ def draw_single(cars, road, world, round):
 
     # Level up notification after every 10 points
     if int(world.getScore()) % 10 == 0 and int(world.getScore()) != 0 and int(world.getScore()) != 1:
-        text = py.font.Font("./PixelEmulator-xq08.ttf", 50).render("LEVEL UP!", 5, BLACK)
+        text = py.font.Font("fonts/PixelEmulator-xq08.ttf", 50).render("LEVEL UP!", 5, BLACK)
         world.win.blit(text, ((world.win_width - text.get_width()) / 2, 90))
-        text = py.font.Font("./PixelEmulator-xq08.ttf", 50).render("LEVEL UP!", 5, WHITE)
+        text = py.font.Font("fonts/PixelEmulator-xq08.ttf", 50).render("LEVEL UP!", 5, WHITE)
         world.win.blit(text, ((world.win_width - text.get_width() + 2) / 2, 88))
 
 
