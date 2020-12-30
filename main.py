@@ -9,11 +9,6 @@ import time
 import random
 import pygame as py
 
-
-
-
-
-
 from car import Car
 from NNdraw import NN
 from road import Road
