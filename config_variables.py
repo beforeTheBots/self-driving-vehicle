@@ -7,8 +7,8 @@ py.font.init()  # initializes the font module. The module must be initialized be
 # 1. General Constants:
 # =================== General constants ==================================
 FPS = 30  # frame per second
-WIN_WIDTH = 1500  # window width
-WIN_HEIGHT = 800  # window height
+WIN_WIDTH = 1280  # window width
+WIN_HEIGHT = 720  # window height
 STARTING_POS = (WIN_WIDTH / 2, WIN_HEIGHT - 100)
 SCORE_VEL_MULTIPLIER = 0.00  # bonus for faster cars
 BAD_GENOME_THRESHOLD = 200  # if a car is too far behind it is removed
