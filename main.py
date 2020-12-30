@@ -69,7 +69,7 @@ def main_menu(run):
     screen.blit(background, (0, 0))
 
     while True:
-        draw_text('BEFORE THE BOTS', logo, (192,192,192), screen, WIN_WIDTH-WIN_WIDTH*0.95, WIN_HEIGHT-WIN_HEIGHT*0.97)
+        draw_text('BEFORE THE BOTS', logo, (192,192,192), screen, WIN_WIDTH-WIN_WIDTH*0.83, WIN_HEIGHT-WIN_HEIGHT*0.99)
         mx, my = py.mouse.get_pos()
 
         # BUTTON ONE :
@@ -217,12 +217,11 @@ def single_play(round):
         while hold == True:
 
             draw_single(cars, road, world, round)
-            text = py.font.Font("fonts/PixelEmulator-xq08.ttf", 100).render("PAUSE !!!", 5, WHITE)
-            world.win.blit(text, ((world.win_width - text.get_width() + 2) , 200))
+            text = py.font.Font("fonts/PixelEmulator-xq08.ttf", 100).render("PAUSE", 5, WHITE)
+            world.win.blit(text, (50, 30))
             time.sleep(1)
             for event in py.event.get():
-                text = py.font.Font("fonts/PixelEmulator-xq08.ttf", 100).render("PAUSE !!!", 5, WHITE)
-                world.win.blit(text, ((world.win_width - text.get_width()) / 2, 90))
+
 
                 if event.type == py.QUIT:
 

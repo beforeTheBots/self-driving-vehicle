@@ -56,6 +56,7 @@ class Road:
         self.last_ctrl_point = self.num_ctrl_points - 1
         self.bottomPointIndex = 0
 
+
     def calcBorders(self, i):  # a function that calculate the borders of the road for all directions
         prev_index = getPoint(i - 1, self.num_ctrl_points * NUM_POINTS)
         center = self.centerPoints[i]
