@@ -18,9 +18,6 @@ from moviepy.editor import *
 from config_variables import *
 
 
-
-
-
 py.init()
 py.font.init()
 
@@ -48,14 +45,15 @@ def draw_text(text, font, color, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
-def main_menu(run):
+def main_menu(running):
     click = False
 
-    if run:
+    if running:
         music = py.mixer.music.load('tracks/revving_cut.mp3')
         py.mixer.music.play(-1)
 
         video = VideoFileClip('imgs/main.mp4')
+        video.resize((WIN_WIDTH, WIN_HEIGHT))
         video.preview()
 
     # SOUND 2: HOMEPAGE
@@ -65,7 +63,7 @@ def main_menu(run):
 
     # BACKGROUND IMAGE
     background = py.image.load(os.path.join("imgs", "dail.png"))
-    background = py.transform.scale(background, (1300,760))
+    background = py.transform.scale(background, (WIN_WIDTH, WIN_HEIGHT))
     screen.blit(background, (0, 0))
 
     while True:
@@ -73,10 +71,10 @@ def main_menu(run):
         mx, my = py.mouse.get_pos()
 
         # BUTTON ONE :
-        button_1 = py.Rect(WIN_WIDTH-WIN_WIDTH*0.880, WIN_HEIGHT-WIN_HEIGHT*0.25, 300, 50)
+        button_1 = py.Rect(WIN_WIDTH-WIN_WIDTH*0.810, WIN_HEIGHT-WIN_HEIGHT*0.17, 300, 50)
 
         # BUTTON TWO :
-        button_2 = py.Rect(WIN_WIDTH - WIN_WIDTH * 0.470, WIN_HEIGHT - WIN_HEIGHT * 0.25, 300, 50)
+        button_2 = py.Rect(WIN_WIDTH - WIN_WIDTH * 0.375, WIN_HEIGHT - WIN_HEIGHT * 0.17, 300, 50)
 
         if button_1.collidepoint((mx, my)):
             if click:
@@ -91,12 +89,12 @@ def main_menu(run):
         # BUTTON 1 COLOR
         py.draw.rect(screen, RED, button_1)
         # BUTTON 1 TEXT
-        draw_text('PLAY GAME', font, WHITE, screen, WIN_WIDTH-WIN_WIDTH*0.850, WIN_HEIGHT-WIN_HEIGHT*0.25)
-        # ----
+        draw_text('PLAY GAME', font, WHITE, screen, WIN_WIDTH-WIN_WIDTH*0.770, WIN_HEIGHT-WIN_HEIGHT*0.16)
+
         # BUTTON 2 COLOR
         py.draw.rect(screen, RED, button_2)
         # BUTTON 2 TEXT
-        draw_text('GHOST RIDER', font, WHITE, screen, WIN_WIDTH - WIN_WIDTH * 0.455, WIN_HEIGHT - WIN_HEIGHT * 0.25)
+        draw_text('GHOST RIDER', font, WHITE, screen, WIN_WIDTH - WIN_WIDTH * 0.360, WIN_HEIGHT - WIN_HEIGHT * 0.16)
 
         click = False
         for event in py.event.get():
@@ -163,15 +161,12 @@ def draw_single(cars, road, world, round):
 def single_play(round):
 
     py.mixer.music.stop()
-    # music = py.mixer.music.load('tracks/Ratatouille\'s Kitchen - Carmen María and Edu Espinal.mp3')
-    # py.mixer.music.play(-1)
     before_puese = 0
     after_puese = 0
     timer = 0
 
     # SOUND 3: PLAYER
     py.mixer.music.stop()
-    # music = py.mixer.music.load('tracks/Ratatouille\'s Kitchen - Carmen María and Edu Espinal.mp3')
     music = py.mixer.music.load('tracks/nova.mp3')
     py.mixer.music.play(-1)
 
@@ -377,7 +372,6 @@ def run(config_path):
 
     # SOUND 4: BOT
     py.mixer.music.stop()
-    # music = py.mixer.music.load('tracks/LinkinPark .mp3')
     music = py.mixer.music.load('tracks/nova.mp3')
     py.mixer.music.play(-1)
 
