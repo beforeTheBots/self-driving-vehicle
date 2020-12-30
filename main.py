@@ -9,6 +9,7 @@ import time
 import random
 import pygame as py
 
+
 from car import Car
 from NNdraw import NN
 from road import Road
@@ -212,7 +213,6 @@ def single_play(round):
 
         while hold == True:
 
-
             draw_single(cars, road, world, round)
             text = py.font.Font("./PixelEmulator-xq08.ttf", 100).render("PAUSE !!!", 5, WHITE)
             world.win.blit(text, ((world.win_width - text.get_width() + 2) , 200))
@@ -238,7 +238,6 @@ def single_play(round):
                             after_puese = time.time()
 
                             timer += int(after_puese - before_puese)
-
 
 
         t += 1
