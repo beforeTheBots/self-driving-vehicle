@@ -49,9 +49,15 @@ def draw_text(text, font, color, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
-
-def main_menu():
+def main_menu(run):
     click = False
+
+    if run:
+        music = py.mixer.music.load('tracks/revving_cut.mp3')
+        py.mixer.music.play(-1)
+
+        video = VideoFileClip('imgs/main.mp4')
+        video.preview()
 
     # SOUND 2: HOMEPAGE
     py.mixer.music.stop()
@@ -59,13 +65,9 @@ def main_menu():
     py.mixer.music.play(-1)
 
     # BACKGROUND IMAGE
-    # background = py.image.load(os.path.join("imgs", "self_car3.jpg"))
-    # background = py.transform.scale(background, (WIN_WIDTH, WIN_HEIGHT))
-    # screen.blit(background, (0, 0))
-
-    video = VideoFileClip('imgs/main.mp4')
-    video.preview()
-    # py.quit()
+    background = py.image.load(os.path.join("imgs", "dail.png"))
+    background = py.transform.scale(background, (1300,760))
+    screen.blit(background, (0, 0))
 
     while True:
         draw_text('BEFORE THE BOTS', logo, (192,192,192), screen, WIN_WIDTH-WIN_WIDTH*0.95, WIN_HEIGHT-WIN_HEIGHT*0.97)
@@ -76,10 +78,8 @@ def main_menu():
 
         # BUTTON TWO :
         button_2 = py.Rect(WIN_WIDTH - WIN_WIDTH * 0.470, WIN_HEIGHT - WIN_HEIGHT * 0.25, 300, 50)
-        # ----
 
         if button_1.collidepoint((mx, my)):
-
             if click:
                 round = 0
                 single_play(round)
@@ -91,7 +91,7 @@ def main_menu():
 
         # BUTTON 1 COLOR
         py.draw.rect(screen, RED, button_1)
-        # BUTTON TEXT
+        # BUTTON 1 TEXT
         draw_text('PLAY GAME', font, WHITE, screen, WIN_WIDTH-WIN_WIDTH*0.850, WIN_HEIGHT-WIN_HEIGHT*0.25)
         # ----
         # BUTTON 2 COLOR
@@ -133,7 +133,7 @@ def draw_win(cars, road, world, GEN):
     for event in py.event.get():
         if event.type == KEYDOWN:
             if event.key == K_BACKSPACE:
-                main_menu()
+                main_menu(False)
     mainClock.tick(60)
 
 
@@ -205,7 +205,7 @@ def single_play(round):
             if event.type == KEYDOWN:
                 if event.key == K_BACKSPACE:
                     py.mixer.music.stop()
-                    main_menu()
+                    main_menu(False)
                 if event.key== K_SPACE:
                     if hold == False:
                         before_puese = time.time()
@@ -233,7 +233,7 @@ def single_play(round):
                 if event.type == KEYDOWN:
                     if event.key == K_BACKSPACE:
                         py.mixer.music.stop()
-                        main_menu()
+                        main_menu(False)
                     if event.key == K_SPACE:
                         if hold == False:
                             hold = True
@@ -397,4 +397,4 @@ def run(config_path):
 
 if __name__ == "__main__":
 
-    main_menu()
+    main_menu(True)
