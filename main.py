@@ -35,8 +35,8 @@ screen = py.display.set_mode((WIN_WIDTH, WIN_HEIGHT), 0, 32)
 crash = py.mixer.Sound('tracks/Glass and Metal Collision.mp3')
 
 # FONTS
-font = py.font.Font('PixelEmulator-xq08.ttf', 30)  # BUTTONS FONT
-logo = py.font.Font('NFS_by_JLTV.ttf', 80)  # LOGO FONT
+font = py.font.Font('fonts/PixelEmulator-xq08.ttf', 30)  # BUTTONS FONT
+logo = py.font.Font('fonts/NFS_by_JLTV.ttf', 80)  # LOGO FONT
 
 
 def draw_text(text, font, color, surface, x, y):
@@ -214,11 +214,11 @@ def single_play(round):
         while hold == True:
 
             draw_single(cars, road, world, round)
-            text = py.font.Font("./PixelEmulator-xq08.ttf", 100).render("PAUSE !!!", 5, WHITE)
+            text = py.font.Font("fonts/PixelEmulator-xq08.ttf", 100).render("PAUSE !!!", 5, WHITE)
             world.win.blit(text, ((world.win_width - text.get_width() + 2) , 200))
             time.sleep(1)
             for event in py.event.get():
-                text = py.font.Font("./PixelEmulator-xq08.ttf", 100).render("PAUSE !!!", 5, WHITE)
+                text = py.font.Font("fonts/PixelEmulator-xq08.ttf", 100).render("PAUSE !!!", 5, WHITE)
                 world.win.blit(text, ((world.win_width - text.get_width()) / 2, 90))
 
                 if event.type == py.QUIT:

@@ -58,8 +58,8 @@ DARK_GREEN_PALE = (100, 150, 100)
 YELLOW = (255,255,1)
 
 
-NODE_FONT = py.font.Font("./Debrosee-ALPnL.ttf", 15)
-STAT_FONT = py.font.Font("./PixelEmulator-xq08.ttf", 30)
+NODE_FONT = py.font.Font("fonts/Debrosee-ALPnL.ttf", 15)
+STAT_FONT = py.font.Font("fonts/PixelEmulator-xq08.ttf", 30)
 
 # 5. Constants for internal use:
 # =================== Constants for internal use =========================
