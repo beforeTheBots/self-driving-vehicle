@@ -17,6 +17,10 @@ from pygame.locals import *
 from moviepy.editor import *
 from config_variables import *
 
+
+
+
+
 py.init()
 py.font.init()
 
