@@ -9,11 +9,6 @@ import time
 import random
 import pygame as py
 
-
-
-
-
-
 from car import Car
 from NNdraw import NN
 from road import Road
@@ -21,6 +16,10 @@ from world import World
 from pygame.locals import *
 from moviepy.editor import *
 from config_variables import *
+
+
+
+
 
 py.init()
 py.font.init()
