@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "self-driving-vehicle"
+version = "0.1.0"
+description = ""
+authors = ["Dario Thornhill <dariothornhill@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "3.9"
+pygame = "^2.0.2"
+neat-python = "^0.92"
+scipy = "^1.7.1"
+moviepy = "^1.0.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
